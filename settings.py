@@ -1,8 +1,5 @@
 import pymongo
 
-from utils import custom_convert
-from data_convert.model import Mapper
-
 MONGODB_HOST = '127.0.0.1'
 MONGODB_PORT = 27017
 MONGODB_USERNAME = None

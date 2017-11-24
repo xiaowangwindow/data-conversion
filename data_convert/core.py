@@ -5,12 +5,6 @@ from data_convert.util import pp
 from data_convert import data_mock
 from data_convert.model import Mapper
 
-TypeDefaultValue = {
-    AnyStr: '',
-    List: [],
-    Dict: {}
-}
-
 
 def convert(mapping: List[Mapper], src_doc: Dict) -> Dict:
     '''
@@ -46,7 +40,7 @@ def convert_by_mapper(mapper: Mapper, src_doc: Dict) -> Dict:
         return {mapper.dst_key: mid_doc}
     else:
         try:
-            return {mapper.dst_key: value_type(mid_doc)}
+            return {mapper.dst_key: mapper.value_type(mid_doc)}
         except:
             return {}
 
@@ -54,7 +48,6 @@ def convert_by_mapper(mapper: Mapper, src_doc: Dict) -> Dict:
 if __name__ == '__main__':
     def convert_value(doc):
         return doc + 'abc'
-
 
     mapping = [
         Mapper('url', 'source.kompass.url', str, None),
