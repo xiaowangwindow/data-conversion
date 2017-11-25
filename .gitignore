@@ -96,4 +96,5 @@ ENV/
 .idea
 *.html
 logs/
-settings_release.py
+settings_*.py
+convert_utils/*

@@ -5,7 +5,6 @@ from typing import List
 from pymongo.cursor import Cursor
 from pymongo.errors import BulkWriteError
 
-import settings
 from db import mongo
 
 logger = logging.getLogger(__name__)
