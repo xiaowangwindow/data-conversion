@@ -14,17 +14,15 @@ logger = logging.getLogger(__name__)
 class MongoIO():
     def __init__(self,
                  mongo_manager,
-                 filter_={},
-                 projection=None,
-                 start=0,
-                 limit=sys.maxsize,
-                 write_condition=[]):
+                 write_condition=[],
+                 **kwargs
+                 ):
         self._mongo_manager = mongo_manager
-        self._filter = filter_
-        self._projection = projection
-        self._start = start
-        self._limit = limit
         self._write_condition = write_condition
+        self._filter = kwargs.get('filter', {})
+        self._projection = kwargs.get('projection', None)
+        self._start = kwargs.get('start', 0)
+        self._limit = kwargs.get('limit', sys.maxsize)
         if not self._write_condition:
             logger.warning('no write_condition, dst_doc can\'t be inserted correctly!')
 
