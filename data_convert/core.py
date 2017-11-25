@@ -50,13 +50,7 @@ if __name__ == '__main__':
         return doc + 'abc'
 
     mapping = [
-        Mapper('url', 'source.kompass.url', str, None),
-        Mapper('company_info.Fundamental.company_name',
-               'company_information.basic.name', str, None),
-        Mapper('comapny_info.Fundamental.image',
-               'company_information.basic.company_logo', str, None),
-        Mapper('company_info.Fundamental.address',
-               'company_information.basic_country', str, None)
+        Mapper('http.url', 'url', str, None),
     ]
 
     res = convert(mapping, data_mock.src_doc)

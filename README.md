@@ -8,7 +8,7 @@ data by MAPPING Rules in settings, and save to destination collection in MongoDB
 
 First, you should create a new settings file, for example, `settings_release.py`.
 Then, define custom settings like Setting Template File `settings.py`, whose arguments also describe below.
-Finally, Run asynchronously:
+Finally, run asynchronously:
 
 ```
 python run_async.py settings_release
