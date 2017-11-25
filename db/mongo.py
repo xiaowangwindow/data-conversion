@@ -1,5 +1,10 @@
 import pymongo
+import logging
 from motor import motor_asyncio
+
+
+logger = logging.getLogger(__name__)
+
 
 class MotorMongoManager():
     @classmethod
@@ -20,6 +25,7 @@ class MotorMongoManager():
         self._db = self._client[self._settings.MONGODB_DB]
         self._src_coll = self._db[self._settings.MONGODB_SRC_COLL]
         self._dst_coll = self._db[self._settings.MONGODB_DST_COLL]
+        logger.info('Connect to: {}'.format(self._uri))
 
     async def setup_dst_coll_index(self):
         for index_item, kwargs in self._settings.MONGODB_DST_COLL_INDEX:

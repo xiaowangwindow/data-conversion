@@ -36,6 +36,9 @@ def convert_by_mapper(mapper: Mapper, src_doc: Dict) -> Dict:
     if mapper.convert_func:
         mid_doc = mapper.convert_func(mid_doc)
 
+    if not mid_doc:
+        return {}
+
     if isinstance(mid_doc, mapper.value_type):
         return {mapper.dst_key: mid_doc}
     else:

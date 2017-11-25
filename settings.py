@@ -28,6 +28,10 @@ MAPPING = [
     Mapper('url', 'url', str, None),
 ]
 
+MAPPING_LIST = [
+    MAPPING
+]
+
 PROCESS_NUM = 4
 CONCURRENT_PER_PROCESS = 1000
 

@@ -1,3 +1,4 @@
+import importlib
 import sys
 import asyncio
 import datetime
@@ -13,15 +14,10 @@ from db import mongo
 from data_convert import mongo_io
 from data_convert import core
 from data_convert.util import pp
-from run import io_convert
-
-try:
-    import settings_release as settings
-except:
-    import settings
+from run import io_convert, settings
 
 async_mongo_manager = mongo.MotorMongoManager.from_settings(settings)
-logging.basicConfig(level=settings.LOG_LEVEL)
+logging.getLogger('').setLevel(settings.LOG_LEVEL)
 logger = logging.getLogger(__name__)
 
 
@@ -62,15 +58,11 @@ def run_by_multiprocess():
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 2:
-        logger.info('Import {} as Settings'.format(sys.argv[1]))
-        settings = importlib.import_module(sys.argv[1])
-
     start_time = datetime.datetime.now()
     logger.info('Start At: {}'.format(start_time))
 
     run_by_multiprocess()
 
     end_time = datetime.datetime.now()
-    logging.info('End At: {}'.format(end_time))
+    logger.info('End At: {}'.format(end_time))
     logger.info('Cost Time: {}'.format(end_time-start_time))
