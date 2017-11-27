@@ -27,10 +27,12 @@ def convert_by_mapper(mapper: Mapper, src_doc: Dict) -> Dict:
     :param mapper:
     :return:
     '''
-    if not mapper.src_key or not mapper.dst_key:
+    if mapper.src_key is None or mapper.dst_key is None:
         return {}
     mid_doc = src_doc
     for field in mapper.src_key.split('.'):
+        if not field:
+            break
         mid_doc = mid_doc.get(field, {})
 
     if mapper.convert_func:
