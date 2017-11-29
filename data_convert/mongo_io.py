@@ -27,8 +27,14 @@ class MongoIO():
 
     async def run(self, operate_func):
         async for doc in self.read():
-            dst_doc = operate_func(doc)
-            await self.write(dst_doc)
+            try:
+                dst_doc = operate_func(doc)
+            except Exception as exc:
+                logger.error(exc)
+                doc.update({'error_reason': str(exc)})
+                await self.save_error(doc)
+            else:
+                await self.write(dst_doc)
 
     def read(self) -> Cursor:
         cursor = self._mongo_manager.src_coll.find(self._filter,
@@ -44,6 +50,12 @@ class MongoIO():
                 {'$set': doc},
                 upsert=True
             )
+        except Exception as exc:
+            logger.error(exc)
+
+    async def save_error(self, doc):
+        try:
+            await self._mongo_manager.error_coll.insert_one(doc)
         except Exception as exc:
             logger.error(exc)
 

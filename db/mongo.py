@@ -2,7 +2,6 @@ import pymongo
 import logging
 from motor import motor_asyncio
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -25,11 +24,16 @@ class MotorMongoManager():
         self._db = self._client[self._settings.MONGODB_DB]
         self._src_coll = self._db[self._settings.MONGODB_SRC_COLL]
         self._dst_coll = self._db[self._settings.MONGODB_DST_COLL]
+        self._error_coll = self._db[self._settings.MONGODB_ERROR_COLL]
         logger.info('Connect to: {}'.format(self._uri))
 
     async def setup_dst_coll_index(self):
         for index_item, kwargs in self._settings.MONGODB_DST_COLL_INDEX:
             await self._dst_coll.create_index(index_item, **kwargs)
+
+    async def setup_error_coll_index(self):
+        for index_item, kwargs in self._settings.MONGODB_ERROR_COLL_INDEX:
+            await self._error_coll.create_index(index_item, **kwargs)
 
     @property
     def db_uri(self):
@@ -42,6 +46,10 @@ class MotorMongoManager():
     @property
     def src_coll(self):
         return self._src_coll
+
+    @property
+    def error_coll(self):
+        return self._error_coll
 
 
 class PyMongoManager():
@@ -63,11 +71,15 @@ class PyMongoManager():
         self._db = self._client[self._settings.MONGODB_DB]
         self._src_coll = self._db[self._settings.MONGODB_SRC_COLL]
         self._dst_coll = self._db[self._settings.MONGODB_DST_COLL]
-
+        self._error_coll = self._db[self._settings.MONGODB_ERROR_COLL]
 
     def setup_dst_coll_index(self):
         for index_item, kwargs in self._settings.MONGODB_DST_COLL_INDEX:
             self._dst_coll.create_index(index_item, **kwargs)
+
+    def setup_error_coll_index(self):
+        for index_item, kwargs in self._settings.MONGODB_ERROR_COLL_INDEX:
+            self._error_coll.create_index(index_item, **kwargs)
 
     @property
     def db_uri(self):
@@ -80,3 +92,7 @@ class PyMongoManager():
     @property
     def src_coll(self):
         return self._src_coll
+
+    @property
+    def error_coll(self):
+        return self._error_coll

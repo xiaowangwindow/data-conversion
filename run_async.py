@@ -38,6 +38,7 @@ def run_process(query_condition):
 def run_by_multiprocess():
     sync_mongo_manager = mongo.PyMongoManager.from_settings(settings)
     sync_mongo_manager.setup_dst_coll_index()
+    sync_mongo_manager.setup_error_coll_index()
 
     total_count = settings.SRC_COLL_QUERY.get('limit', None)
     if total_count is None:

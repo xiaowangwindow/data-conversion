@@ -15,6 +15,10 @@ MONGODB_DST_COLL = 'dst_coll'
 MONGODB_DST_COLL_INDEX = [
     ([('url', pymongo.ASCENDING)], {'unique': True}),
 ]
+MONGODB_ERROR_COLL = 'error_coll'
+MONGODB_ERROR_COLL_INDEX = [
+    ([('url', pymongo.ASCENDING)], {'unique': True}),
+]
 
 SRC_COLL_QUERY = {
     # 'filter': {},

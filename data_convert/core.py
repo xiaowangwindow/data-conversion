@@ -44,10 +44,7 @@ def convert_by_mapper(mapper: Mapper, src_doc: Dict) -> Dict:
     if isinstance(mid_doc, mapper.value_type):
         return {mapper.dst_key: mid_doc}
     else:
-        try:
-            return {mapper.dst_key: mapper.value_type(mid_doc)}
-        except:
-            return {}
+        return {mapper.dst_key: mapper.value_type(mid_doc)}
 
 
 if __name__ == '__main__':

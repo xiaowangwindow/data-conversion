@@ -41,6 +41,7 @@ async def io_convert(mongo_manager, query):
 
 async def run():
     await async_mongo_manager.setup_dst_coll_index()
+    await async_mongo_manager.setup_error_coll_index()
     await io_convert(async_mongo_manager, settings.SRC_COLL_QUERY)
 
 
