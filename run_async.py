@@ -16,13 +16,13 @@ from data_convert import core
 from data_convert.util import pp
 from run import io_convert, settings
 
-async_mongo_manager = mongo.MotorMongoManager.from_settings(settings)
 logging.getLogger('').setLevel(settings.LOG_LEVEL)
 logger = logging.getLogger(__name__)
 
 
-def run_process(query_condition):
-    start, end, batch_size = query_condition
+def run_process(arguments_list):
+    start, end, batch_size = arguments_list
+    async_mongo_manager = mongo.MotorMongoManager.from_settings(settings)
     asyncio.get_event_loop().run_until_complete(
         asyncio.gather(*[
             io_convert(async_mongo_manager, {

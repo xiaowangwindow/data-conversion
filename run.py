@@ -24,7 +24,6 @@ from data_convert import mongo_io
 from data_convert import core
 from data_convert.util import pp
 
-async_mongo_manager = mongo.MotorMongoManager.from_settings(settings)
 logging.getLogger('').setLevel(settings.LOG_LEVEL)
 logger = logging.getLogger(__name__)
 
@@ -40,6 +39,7 @@ async def io_convert(mongo_manager, query):
 
 
 async def run():
+    async_mongo_manager = mongo.MotorMongoManager.from_settings(settings)
     await async_mongo_manager.setup_dst_coll_index()
     await async_mongo_manager.setup_error_coll_index()
     await io_convert(async_mongo_manager, settings.SRC_COLL_QUERY)
