@@ -43,3 +43,7 @@ python run.py settings_release
 | CONCURRENT_PER_PROCESS   | number of concurrent group to run in one process                                           | 100                                                                                      |
 | LOG_LEVEL                | Level of logging                                                                           | logging.INFO                                                                             |
 
+## Settings explain
+The most important part in settings is MAPPING. MAPPING contains a list of Mapper,
+which is a tuple (src_key, dst_key, dst_type, custom_convert).
+dst_type and custom_convert can be `None` if you want to preserve origin type and value.
