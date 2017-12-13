@@ -4,8 +4,9 @@ import sys
 
 try:
     if len(sys.argv) == 2:
-        logging.warning('Import {} as Settings'.format(sys.argv[1]))
-        settings = importlib.import_module(sys.argv[1])
+        module_name = sys.argv[1].strip('.py')
+        logging.warning('Import {} as Settings'.format(module_name))
+        settings = importlib.import_module(module_name)
     else:
         import settings
 except:

@@ -29,7 +29,7 @@ def run_process(arguments_list):
                 'filter': settings.SRC_COLL_QUERY.get('filter', {}),
                 'projection': settings.SRC_COLL_QUERY.get('projection', None),
                 'start': index,
-                'limit': batch_size
+                'limit': min(batch_size, end-index)
             }) for index in range(start, end, batch_size)
         ])
     )
@@ -40,21 +40,21 @@ def run_by_multiprocess():
     sync_mongo_manager.setup_dst_coll_index()
     sync_mongo_manager.setup_error_coll_index()
 
+    start = settings.SRC_COLL_QUERY.get('start', 0)
     total_count = settings.SRC_COLL_QUERY.get('limit', None)
     if total_count is None:
         total_count = sync_mongo_manager.src_coll.count(
             settings.SRC_COLL_QUERY.get('filter', {})
-        )
+        ) - start
     batch_size = (
         math.ceil(total_count /
             (settings.CONCURRENT_PER_PROCESS * settings.PROCESS_NUM))
     )
     process_batch_size = batch_size * settings.CONCURRENT_PER_PROCESS
-    start = settings.SRC_COLL_QUERY.get('start', 0)
-    end = start + total_count + 1
+    end = start + total_count
     with ProcessPoolExecutor(settings.PROCESS_NUM) as executor:
         executor.map(run_process,
-                     [(index, index + process_batch_size, batch_size)
+                     [(index, min(index + process_batch_size, end), batch_size)
                        for index in range(start, end, process_batch_size)])
 
 
