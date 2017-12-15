@@ -52,6 +52,8 @@ def run_by_multiprocess():
     )
     process_batch_size = batch_size * settings.CONCURRENT_PER_PROCESS
     end = start + total_count
+    logger.info('start: {}, end: {}, process_batch_size: {}'.format(
+        start, end, process_batch_size))
     with ProcessPoolExecutor(settings.PROCESS_NUM) as executor:
         executor.map(run_process,
                      [(index, min(index + process_batch_size, end), batch_size)

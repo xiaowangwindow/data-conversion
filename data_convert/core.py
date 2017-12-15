@@ -1,3 +1,4 @@
+import inspect
 from typing import AnyStr, Dict, List
 from collections import namedtuple
 from data_convert.util import pp
@@ -6,7 +7,7 @@ from data_convert import data_mock
 from data_convert.model import Mapper
 
 
-def convert(mapping: List[Mapper], src_doc: Dict) -> Dict:
+async def convert(mapping: List[Mapper], src_doc: Dict) -> Dict:
     '''
     convert Data
     :param src_doc:
@@ -16,11 +17,11 @@ def convert(mapping: List[Mapper], src_doc: Dict) -> Dict:
     '''
     res = {}
     for mapper in mapping:
-        res.update(convert_by_mapper(mapper, src_doc))
+        res.update(await convert_by_mapper(mapper, src_doc))
     return res
 
 
-def convert_by_mapper(mapper: Mapper, src_doc: Dict) -> Dict:
+async def convert_by_mapper(mapper: Mapper, src_doc: Dict) -> Dict:
     '''
     convert src_doc to dst_doc by Mapper
     :param src_doc:
@@ -36,7 +37,10 @@ def convert_by_mapper(mapper: Mapper, src_doc: Dict) -> Dict:
         mid_doc = mid_doc.get(field, {})
 
     if mapper.convert_func:
-        mid_doc = mapper.convert_func(mid_doc)
+        if inspect.iscoroutinefunction(mapper.convert_func):
+            mid_doc = await mapper.convert_func(mid_doc)
+        else:
+            mid_doc = mapper.convert_func(mid_doc)
 
     if not mid_doc:
         return {}

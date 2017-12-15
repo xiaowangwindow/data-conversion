@@ -1,10 +1,11 @@
 import importlib
 import logging
 import sys
+from pathlib import PurePosixPath
 
 try:
     if len(sys.argv) == 2:
-        module_name = sys.argv[1].strip('.py')
+        module_name = PurePosixPath(sys.argv[1]).stem
         logging.warning('Import {} as Settings'.format(module_name))
         settings = importlib.import_module(module_name)
     else:
