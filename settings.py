@@ -8,9 +8,10 @@ MONGODB_PORT = 27017
 MONGODB_USERNAME = None
 MONGODB_PASSWORD = None
 MONGODB_AUTHDB = 'admin'
-MONGODB_DB = 'data'
 
+MONGODB_SRC_DB = 'src_db'
 MONGODB_SRC_COLL = 'src_coll'
+MONGODB_DST_DB = 'dst_db'
 MONGODB_DST_COLL = 'dst_coll'
 MONGODB_DST_COLL_INDEX = [
     ([('url', pymongo.ASCENDING)], {'unique': True}),

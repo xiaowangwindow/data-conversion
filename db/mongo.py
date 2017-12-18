@@ -12,19 +12,21 @@ class MotorMongoManager():
 
     def __init__(self, settings):
         self._settings = settings
-        self._uri = 'mongodb://{auth_info}{host}:{port}'.format(
+        self._uri = 'mongodb://{auth_info}{host}:{port}/{auth_db}'.format(
             auth_info='{username}:{password}@'.format(
                 username=self._settings.MONGODB_USERNAME,
                 password=self._settings.MONGODB_PASSWORD
-            ) if self._settings.MONGODB_USERNAME  else '',
+            ) if self._settings.MONGODB_USERNAME else '',
             host=self._settings.MONGODB_HOST,
-            port=self._settings.MONGODB_PORT
+            port=self._settings.MONGODB_PORT,
+            auth_db=self._settings.MONGODB_AUTHDB or 'admin'
         )
         self._client = motor_asyncio.AsyncIOMotorClient(self._uri)
-        self._db = self._client[self._settings.MONGODB_DB]
-        self._src_coll = self._db[self._settings.MONGODB_SRC_COLL]
-        self._dst_coll = self._db[self._settings.MONGODB_DST_COLL]
-        self._error_coll = self._db[self._settings.MONGODB_ERROR_COLL]
+        self._src_db = self._client[self._settings.MONGODB_SRC_DB]
+        self._dst_db = self._client[self._settings.MONGODB_DST_DB]
+        self._src_coll = self._src_db[self._settings.MONGODB_SRC_COLL]
+        self._dst_coll = self._dst_db[self._settings.MONGODB_DST_COLL]
+        self._error_coll = self._dst_db[self._settings.MONGODB_ERROR_COLL]
         logger.info('Connect to: {}'.format(self._uri))
 
     async def setup_dst_coll_index(self):
@@ -59,19 +61,21 @@ class PyMongoManager():
 
     def __init__(self, settings):
         self._settings = settings
-        self._uri = 'mongodb://{auth_info}{host}:{port}'.format(
+        self._uri = 'mongodb://{auth_info}{host}:{port}/{auth_db}'.format(
             auth_info='{username}:{password}@'.format(
                 username=self._settings.MONGODB_USERNAME,
                 password=self._settings.MONGODB_PASSWORD
             ) if self._settings.MONGODB_USERNAME  else '',
             host=self._settings.MONGODB_HOST,
-            port=self._settings.MONGODB_PORT
+            port=self._settings.MONGODB_PORT,
+            auth_db=self._settings.MONGODB_AUTHDB or 'admin'
         )
         self._client = pymongo.MongoClient(self._uri)
-        self._db = self._client[self._settings.MONGODB_DB]
-        self._src_coll = self._db[self._settings.MONGODB_SRC_COLL]
-        self._dst_coll = self._db[self._settings.MONGODB_DST_COLL]
-        self._error_coll = self._db[self._settings.MONGODB_ERROR_COLL]
+        self._src_db = self._client[self._settings.MONGODB_SRC_DB]
+        self._dst_db = self._client[self._settings.MONGODB_DST_DB]
+        self._src_coll = self._src_db[self._settings.MONGODB_SRC_COLL]
+        self._dst_coll = self._dst_db[self._settings.MONGODB_DST_COLL]
+        self._error_coll = self._dst_db[self._settings.MONGODB_ERROR_COLL]
 
     def setup_dst_coll_index(self):
         for index_item, kwargs in self._settings.MONGODB_DST_COLL_INDEX:
