@@ -31,6 +31,8 @@ class MongoIO():
                 dst_doc = await operate_func(doc)
             except Exception as exc:
                 logger.error(exc)
+                if isinstance(exc, ValueError) and len(exc.args) == 1:
+                    doc.update({'error_key': exc.args[0]})
                 doc.update({'error_reason': str(exc)})
                 await self.save_error(doc)
             else:

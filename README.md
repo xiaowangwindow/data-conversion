@@ -47,3 +47,11 @@ python run.py settings_release
 The most important part in settings is MAPPING. MAPPING contains a list of Mapper,
 which is a tuple (src_key, dst_key, dst_type, custom_convert).
 dst_type and custom_convert can be `None` if you want to preserve origin type and value.
+
+
+## Exception Handling
+Exception occured in convert function will be save into error collection which
+defined in settings.
+
+If you want to record the key of document which excpetion raise, you can
+raise ValueError('key') contains `key` as an argument. 
