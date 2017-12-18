@@ -29,7 +29,8 @@ python run.py settings_release
 | MONGODB_USERNAME         | Username of MongoDB which store origin data                                                | None / 'admin'                                                                           |
 | MONGODB_PASSWORD         | Password of MongoDB which store origin data                                                | None / '123456'                                                                          |
 | MONGODB_AUTHDB           | DB of authorization which store username and password                                      | 'admin'                                                                                  |
-| MONGODB_DB               | DB of MongoDB which store origin data and will store result data                           | 'data'                                                                                   |
+| MONGODB_SRC_DB           | DB of MongoDB which store origin data                                                      | 'src_db'                                                                                 |
+| MONGODB_DST_DB           | DB of MongoDB which will store result data                                                 | 'dst_db'                                                                                 |
 | MONGODB_SRC_COLL         | Source Collection of MongoDB which store origin data                                       | 'src_coll'                                                                               |
 | MONGODB_DST_COLL         | Destination Collection of MongoDB which will store result data                             | 'dst_coll'                                                                               |
 | MONGODB_DST_COLL_INDEX   | Destination Collection Index of MongoDB which store result data                            | [([('url', pymongo.ASCENDING)], {'unique':True}), ([('domain', pymongo.ASCENDING)], {})] |
