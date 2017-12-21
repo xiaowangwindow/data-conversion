@@ -45,7 +45,7 @@ python run.py settings_release
 
 ## Settings explain
 The most important part in settings is MAPPING. MAPPING contains a list of Mapper,
-which is a tuple (src_key, dst_key, dst_type, custom_convert).
+which is a namedtuple (src_key, dst_key, dst_type, custom_convert).
 dst_type and custom_convert can be `None` if you want to preserve origin type and value.
 
 

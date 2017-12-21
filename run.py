@@ -1,7 +1,15 @@
+import asyncio
+import datetime
 import importlib
 import logging
-import sys
+from functools import partial
 from pathlib import PurePosixPath
+
+import sys
+
+from data_convert import core
+from data_convert import mongo_io
+from db import mongo
 
 try:
     if len(sys.argv) == 2:
@@ -13,18 +21,6 @@ try:
 except:
     if not settings:
         import settings
-
-import asyncio
-import datetime
-from typing import List
-from functools import partial
-from copy import deepcopy
-from concurrent.futures import ProcessPoolExecutor
-
-from db import mongo
-from data_convert import mongo_io
-from data_convert import core
-from data_convert.util import pp
 
 logging.getLogger('').setLevel(settings.LOG_LEVEL)
 logger = logging.getLogger(__name__)

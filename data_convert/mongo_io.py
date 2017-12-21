@@ -1,11 +1,9 @@
-import sys
 import logging
+import sys
 from typing import List
 
 from pymongo.cursor import Cursor
 from pymongo.errors import BulkWriteError
-
-from db import mongo
 
 logger = logging.getLogger(__name__)
 
@@ -23,7 +21,8 @@ class MongoIO():
         self._start = kwargs.get('start', 0)
         self._limit = kwargs.get('limit', sys.maxsize)
         if not self._write_condition:
-            logger.warning('no write_condition, dst_doc can\'t be inserted correctly!')
+            logger.warning(
+                'no write_condition, dst_doc can\'t be inserted correctly!')
 
     async def run(self, operate_func):
         async for doc in self.read():

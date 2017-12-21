@@ -1,5 +1,6 @@
-import pymongo
 import logging
+
+import pymongo
 from motor import motor_asyncio
 
 logger = logging.getLogger(__name__)
@@ -16,7 +17,7 @@ class MotorMongoManager():
             auth_info='{username}:{password}@'.format(
                 username=self._settings.MONGODB_USERNAME,
                 password=self._settings.MONGODB_PASSWORD
-            ) if self._settings.MONGODB_USERNAME  else '',
+            ) if self._settings.MONGODB_USERNAME else '',
             host=self._settings.MONGODB_HOST,
             port=self._settings.MONGODB_PORT
         )
@@ -63,7 +64,7 @@ class PyMongoManager():
             auth_info='{username}:{password}@'.format(
                 username=self._settings.MONGODB_USERNAME,
                 password=self._settings.MONGODB_PASSWORD
-            ) if self._settings.MONGODB_USERNAME  else '',
+            ) if self._settings.MONGODB_USERNAME else '',
             host=self._settings.MONGODB_HOST,
             port=self._settings.MONGODB_PORT
         )

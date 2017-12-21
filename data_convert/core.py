@@ -1,10 +1,9 @@
 import inspect
-from typing import AnyStr, Dict, List
-from collections import namedtuple
-from data_convert.util import pp
+from typing import Dict, List
 
 from data_convert import data_mock
 from data_convert.model import Mapper
+from data_convert.util import pp
 
 
 async def convert(mapping: List[Mapper], src_doc: Dict) -> Dict:
@@ -49,15 +48,3 @@ async def convert_by_mapper(mapper: Mapper, src_doc: Dict) -> Dict:
         return {mapper.dst_key: mid_doc}
     else:
         return {mapper.dst_key: mapper.value_type(mid_doc)}
-
-
-if __name__ == '__main__':
-    def convert_value(doc):
-        return doc + 'abc'
-
-    mapping = [
-        Mapper('http.url', 'url', str, None),
-    ]
-
-    res = convert(mapping, data_mock.src_doc)
-    pp.pprint(res)
