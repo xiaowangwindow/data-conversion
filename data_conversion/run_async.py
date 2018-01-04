@@ -4,8 +4,8 @@ import logging
 import math
 from concurrent.futures import ProcessPoolExecutor
 
-from db import mongo
-from run import io_convert, settings
+from data_conversion.db import mongo
+from data_conversion.run_sync import io_convert, settings
 
 logging.getLogger('').setLevel(settings.LOG_LEVEL)
 logger = logging.getLogger(__name__)
@@ -52,7 +52,7 @@ def run_by_multiprocess():
                       for index in range(start, end, process_batch_size)])
 
 
-if __name__ == '__main__':
+def async_entrypoint():
     start_time = datetime.datetime.now()
     logger.info('Start At: {}'.format(start_time))
 
@@ -61,3 +61,7 @@ if __name__ == '__main__':
     end_time = datetime.datetime.now()
     logger.info('End At: {}'.format(end_time))
     logger.info('Cost Time: {}'.format(end_time - start_time))
+
+
+if __name__ == '__main__':
+    async_entrypoint()

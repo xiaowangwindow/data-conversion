@@ -2,14 +2,13 @@ import asyncio
 import datetime
 import importlib
 import logging
+import sys
 from functools import partial
 from pathlib import PurePosixPath
 
-import sys
-
-from data_convert import core
-from data_convert import mongo_io
-from db import mongo
+from data_conversion.data_convert import core
+from data_conversion.data_convert import mongo_io
+from data_conversion.db import mongo
 
 try:
     if len(sys.argv) == 2:
@@ -17,10 +16,10 @@ try:
         logging.warning('Import {} as Settings'.format(module_name))
         settings = importlib.import_module(module_name)
     else:
-        import settings
-except:
-    if not settings:
-        import settings
+        from data_conversion import settings
+except Exception as exc:
+    logging.debug('Import Settings Error: {}'.format(exc))
+    from data_conversion import settings
 
 logging.getLogger('').setLevel(settings.LOG_LEVEL)
 logger = logging.getLogger(__name__)
@@ -43,7 +42,7 @@ async def run():
     await io_convert(async_mongo_manager, settings.SRC_COLL_QUERY)
 
 
-if __name__ == '__main__':
+def sync_entrypoint():
     start_time = datetime.datetime.now()
     logger.info('Start At: {}'.format(start_time))
 
@@ -53,3 +52,7 @@ if __name__ == '__main__':
     end_time = datetime.datetime.now()
     logger.info('End At: {}'.format(end_time))
     logger.info('Cost Time: {}'.format(end_time - start_time))
+
+
+if __name__ == '__main__':
+    sync_entrypoint()

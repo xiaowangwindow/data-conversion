@@ -1,0 +1,48 @@
+language: python
+sudo: false
+branches:
+  only:
+  - master
+  - "/^\\d\\.\\d+$/"
+  - "/^\\d\\.\\d+\\.\\d+(rc\\d+|\\.dev\\d+)?$/"
+matrix:
+  include:
+  - python: 3.5
+    env: TOXENV=py35
+install:
+- |
+  if [ "$TOXENV" = "pypy" ]; then
+    export PYENV_ROOT="$HOME/.pyenv"
+    if [ -f "$PYENV_ROOT/bin/pyenv" ]; then
+      pushd "$PYENV_ROOT" && git pull && popd
+    else
+      rm -rf "$PYENV_ROOT" && git clone --depth 1 https://github.com/yyuu/pyenv.git "$PYENV_ROOT"
+    fi
+    # get latest portable PyPy from pyenv directly (thanks to natural version sort option -V)
+    export PYPY_VERSION=`"$PYENV_ROOT/bin/pyenv" install --list |grep -o -E 'pypy-portable-[0-9][\.0-9]*$' |sort -V |tail -1`
+    "$PYENV_ROOT/bin/pyenv" install --skip-existing "$PYPY_VERSION"
+    virtualenv --python="$PYENV_ROOT/versions/$PYPY_VERSION/bin/python" "$HOME/virtualenvs/$PYPY_VERSION"
+    source "$HOME/virtualenvs/$PYPY_VERSION/bin/activate"
+  fi
+- pip install -U tox twine wheel codecov
+script: tox
+after_success:
+- codecov
+notifications:
+  irc:
+    use_notice: true
+    skip_join: true
+    channels:
+    - irc.freenode.org#scrapy
+cache:
+  directories:
+  - "$HOME/.cache/pip"
+deploy:
+  provider: pypi
+  user: xiaowangwindow
+  password:
+    secure: "SFrVdGEQxp4aTdPykgm4tMBl5xNJD6Yrt/WuCGtbVwLD6KRoKaDFD5jWz3qOyJ5gg94aJVYJASyweZiyOzlhHXfG/mqpCQUVQqDyEpNSzSG/Cb+saDmbS9XQx1LopXtQ92y8Vdzy3bxpo1vbLkEG/In5+Pzx+aJoCItesTEAZ9o624crWCQkPCJS9v+5S2YwrZeyiPe/IEharLliAyzKlZYX+RgNb0Qqp7ZDby/2SFWJDFhX0VtUGqqXm2NPFR9DatKJWAqoi4IzAgqalPb4sW+w9jTNaNAgfS5zgbQc2M3fl3iuf8WUU8QRnve8BUTRgdxz32SADJlDprcHZ4H8kNZp+QG65vdI6McY+d+uS91nOxoiSR80UWbseH1NFca60Ibpu7w9PS/CTilHKFsvx0pt6Wc5Jhh/FtMHbYrGlTbCPm95C46QMOJLVA+bTgBXWUU9yq7EXbTFyzfHqUazD15zjVJo+aseeMWRol+IpD95Yn/Hahvoc8le5TPuAthrESpN9x506ZE7+eTyDNYkH/B8Qm4R1ChJzmg8ni98cdDtdlwvuHaqGShax6aVpMKY8PE/5UGedX6NQRjZYUl4mHNAtfD8GkZpB5vqrPxQFU9N7HV/LxrPGI9GGjA5U6vDLK6OvEqAreL55tyLMfej7ue6OJXb9iTI8BbasnBVYdw="
+  on:
+    tags: true
+    distributions: sdist bdist_wheel
+    repo: xiaowangwindow/data-conversion

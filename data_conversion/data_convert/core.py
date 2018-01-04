@@ -1,9 +1,7 @@
 import inspect
 from typing import Dict, List
 
-from data_convert import data_mock
-from data_convert.model import Mapper
-from data_convert.util import pp
+from data_conversion.data_convert.model import Mapper
 
 
 async def convert(mapping: List[Mapper], src_doc: Dict) -> Dict:

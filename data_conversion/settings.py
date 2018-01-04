@@ -1,7 +1,8 @@
-import pymongo
 import logging
 
-from data_convert.model import Mapper
+import pymongo
+
+from data_conversion.data_convert.model import Mapper
 
 MONGODB_HOST = '127.0.0.1'
 MONGODB_PORT = 27017

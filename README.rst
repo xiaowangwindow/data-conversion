@@ -1,10 +1,13 @@
-# Data-Conversion
+================
+Data-Conversion
+================
 
 Data-Conversion is a framework to convert data from origin style to target style easily.
 With custom settings, data-conversion can read data from MongoDB, convert
 data by MAPPING Rules in settings, and save to destination collection in MongoDB.
 
-## How to Use
+How to Use
+===========
 
 First, you should create a new settings file, for example, `settings_release.py`.
 Then, define custom settings like Setting Template File `settings.py`, whose arguments also describe below.
@@ -20,7 +23,8 @@ python run.py settings_release
 ```
 
 
-## Settings
+Settings
+==========
 
 | Argument                 | Description                                                                                | Value Example                                                                            |
 |--------------------------|--------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
@@ -43,13 +47,15 @@ python run.py settings_release
 | CONCURRENT_PER_PROCESS   | number of concurrent group to run in one process                                           | 100                                                                                      |
 | LOG_LEVEL                | Level of logging                                                                           | logging.INFO                                                                             |
 
-## Settings explain
+Settings explain
+==================
 The most important part in settings is MAPPING. MAPPING contains a list of Mapper,
 which is a namedtuple (src_key, dst_key, dst_type, custom_convert).
 dst_type and custom_convert can be `None` if you want to preserve origin type and value.
 
 
-## Exception Handling
+Exception Handling
+===================
 Exception occured in convert function will be save into error collection which
 defined in settings.
 
