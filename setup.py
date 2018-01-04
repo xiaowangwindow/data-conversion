@@ -22,9 +22,6 @@ setup(
         'console_scripts': ['etl = data_conversion.cmdline:main']
     },
     classifiers=[
-        'Framework :: Data-Conversion',
-        'Development Status :: 2 - Pre-Alpha',
-        'Environment :: Plugins',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
