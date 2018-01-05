@@ -1,6 +1,7 @@
 import asyncio
 import datetime
 import importlib
+import importlib.util
 import logging
 import sys
 from functools import partial
@@ -12,13 +13,17 @@ from data_conversion.db import mongo
 
 try:
     if len(sys.argv) == 2:
-        module_name = PurePosixPath(sys.argv[1]).stem
-        logging.warning('Import {} as Settings'.format(module_name))
-        settings = importlib.import_module(module_name)
+        settings_path = sys.argv[1]
+        settings_name = PurePosixPath(settings_path).stem
+        module_name = 'settings'
+        spec = importlib.util.spec_from_file_location(module_name, settings_path)
+        settings = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(settings)
+        logging.warning('Import {} as Settings'.format(settings_name))
     else:
         from data_conversion import settings
 except Exception as exc:
-    logging.debug('Import Settings Error: {}'.format(exc))
+    logging.error('Import Settings Error: {}'.format(exc))
     from data_conversion import settings
 
 logging.getLogger('').setLevel(settings.LOG_LEVEL)
