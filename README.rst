@@ -24,8 +24,8 @@ Install by pip::
 How to Use
 ===========
 
-First, you should create a new settings file, for example, `settings_release.py`.
-Then, define custom settings like Setting Template File `settings.py`, whose arguments also describe below.
+First, you should create a new settings file, for example, ``settings_release.py``.
+Then, define custom settings like Setting Template File ``settings.py`` in ``data_conversion/settings.py``, whose arguments also describe below.
 Finally, run asynchronously::
 
     $ etl async settings_release.py
@@ -82,7 +82,7 @@ Settings explain
 ==================
 The most important part in settings is MAPPING. MAPPING contains a list of Mapper,
 which is a namedtuple (src_key, dst_key, dst_type, custom_convert).
-dst_type and custom_convert can be `None` if you want to preserve origin type and value.
+dst_type and custom_convert can be ``None`` if you want to preserve origin type and value.
 
 
 Exception Handling
@@ -91,4 +91,4 @@ Exception occured in convert function will be save into error collection which
 defined in settings.
 
 If you want to record the key of document which excpetion raise, you can
-raise ValueError('key') contains `key` as an argument. 
+``raise ValueError('key')`` contains ``key`` as an argument.

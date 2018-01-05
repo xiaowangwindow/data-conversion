@@ -22,4 +22,3 @@ def main():
         settings_path = os.path.join(os.path.abspath('.'), args.settings_name)
         os.system('python {script} {setting}'.format(script=script_path,
                                                      setting=settings_path))
-

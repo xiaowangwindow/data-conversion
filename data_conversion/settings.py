@@ -1,8 +1,13 @@
 import logging
+import os
+import sys
 
 import pymongo
 
 from data_conversion.data_convert.model import Mapper
+
+sys.path.append(os.path.abspath('.'))
+# import your module here
 
 MONGODB_HOST = '127.0.0.1'
 MONGODB_PORT = 27017
