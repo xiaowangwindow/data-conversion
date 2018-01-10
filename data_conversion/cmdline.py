@@ -20,5 +20,7 @@ def main():
                                    'run_sync.py' if args.run_method == 'sync' else
                                    'run_async.py')
         settings_path = os.path.join(os.path.abspath('.'), args.settings_name)
+        if not os.path.isfile(settings_path):
+            return 'please input correct settings file'
         os.system('python {script} {setting}'.format(script=script_path,
                                                      setting=settings_path))
