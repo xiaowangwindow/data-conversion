@@ -1,8 +1,13 @@
 import inspect
-from typing import Dict, List
+from typing import Dict, List, AnyStr
 
 from data_conversion.data_convert.model import Mapper
 
+async def convert_by_operate_dict(operate_mapper_dict: Dict[AnyStr, List[Mapper]], src_doc: Dict) -> Dict:
+    operate_doc = {}
+    for operate_method, mapping in operate_mapper_dict.items():
+        operate_doc.update({operate_method: await convert(mapping, src_doc)})
+    return operate_doc
 
 async def convert(mapping: List[Mapper], src_doc: Dict) -> Dict:
     '''
@@ -39,7 +44,7 @@ async def convert_by_mapper(mapper: Mapper, src_doc: Dict) -> Dict:
         else:
             mid_doc = mapper.convert_func(mid_doc)
 
-    if not mid_doc:
+    if not mid_doc and mid_doc!=0:
         return {}
 
     if not mapper.value_type or isinstance(mid_doc, mapper.value_type):

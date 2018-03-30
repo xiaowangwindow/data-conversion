@@ -65,11 +65,11 @@ Settings
 +--------------------------+--------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------+
 | SRC_COLL_QUERY           | Query condition to select documents to be converted                                        | { 'filter': {}, 'projection': None, 'start': 0, 'limit': 1000 }                          |
 +--------------------------+--------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------+
-| WRITE_CONDITION          | write to dst_coll which collection.update({CONDITION}, {$set:{dst_document}}, upsert=True) | ['url']                                                                                  |
+| WRITE_CONDITION_DICT     | write to dst_coll which collection.update({CONDITION}, {$set:{dst_document}}, upsert=True) | {'$set': ['url']}                                                                        |
 +--------------------------+--------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------+
 | MAPPING                  | list to mapper, rules of conversion                                                        | [Mapper('url', 'url', str, None)] // src_key, dst_key, dst_type, custom_convert_function |
 +--------------------------+--------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------+
-| MAPPING_LIST             | list of mapping, convert by MAPPING in order                                               | [MAPPING1, MAPPING2]                                                                     |
+| OPERATE_MAPPING_DICT     | dict to mapper, rules of conversion                                                        | {'$set':MAPPING, '$push': MAPPING2, '$addToSet': MAPPING3}                               |
 +--------------------------+--------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------+
 | PROCESS_NUM              | Number of process to run conversion                                                        | 1                                                                                        |
 +--------------------------+--------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------+
@@ -83,6 +83,11 @@ Settings explain
 The most important part in settings is MAPPING. MAPPING contains a list of Mapper,
 which is a namedtuple (src_key, dst_key, dst_type, custom_convert).
 dst_type and custom_convert can be ``None`` if you want to preserve origin type and value.
+
+Now, we support '$set', '$push', '$addToSet' operation when update document,
+if you want to add each array element to an existed array,
+please add '$each_' by custom_convert_function.
+.. _$each https://docs.mongodb.com/manual/reference/operator/update/addToSet/#each-modifier
 
 
 Exception Handling

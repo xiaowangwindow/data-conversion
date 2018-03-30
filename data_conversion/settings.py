@@ -32,15 +32,23 @@ SRC_COLL_QUERY = {
     # 'start': 0,
     # 'limit': 1000
 }
-WRITE_CONDITION = ['url']
+WRITE_CONDITION_DICT = {
+    '$set': ['url']
+}
 
 MAPPING = [
     Mapper('url', 'url', str, None),
 ]
 
-MAPPING_LIST = [
-    MAPPING
-]
+PUSH_MAPPING = []
+
+ADD2SET_MAPPING = []
+
+OPERATE_MAPPING_DICT = {
+    '$set': MAPPING,
+    '$push': PUSH_MAPPING,
+    'addToSet': ADD2SET_MAPPING,
+}
 
 PROCESS_NUM = 4
 CONCURRENT_PER_PROCESS = 1000

@@ -33,11 +33,10 @@ logger = logging.getLogger(__name__)
 async def io_convert(mongo_manager, query):
     io = mongo_io.MongoIO(
         mongo_manager,
-        write_condition=settings.WRITE_CONDITION,
+        write_condition_dict=settings.WRITE_CONDITION_DICT,
         **query
     )
-    for MAPPING in settings.MAPPING_LIST:
-        await io.run(partial(core.convert, MAPPING))
+    await io.run(partial(core.convert_by_operate_dict, settings.OPERATE_MAPPING_DICT))
 
 
 async def run():
