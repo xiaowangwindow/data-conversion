@@ -33,7 +33,7 @@ SRC_COLL_QUERY = {
     # 'limit': 1000
 }
 WRITE_CONDITION_DICT = {
-    '$set': ['url']
+    '$set': ['url'],
 }
 
 MAPPING = [
@@ -47,7 +47,7 @@ ADD2SET_MAPPING = []
 OPERATE_MAPPING_DICT = {
     '$set': MAPPING,
     '$push': PUSH_MAPPING,
-    'addToSet': ADD2SET_MAPPING,
+    '$addToSet': ADD2SET_MAPPING,
 }
 
 PROCESS_NUM = 4
